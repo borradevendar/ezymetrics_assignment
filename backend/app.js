@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use('/api', apiRoutes);
 
-mongoose.connect(process.env.MONGO_URI);
+
+url = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017'
+mongoose.connect(url);
 
 module.exports = app;
