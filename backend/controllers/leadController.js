@@ -5,25 +5,18 @@ const Campaign = require('../models/Campaign');
 // Fetch leads from dummy API
 exports.getLeads = async (req, res) => {
   try {
-    const { data } = await axios.get('https://jsonplaceholder.typicode.com/users'); // Dummy API
-    const leads = data.map(user => ({
-      lead_id: user.id,
-      name: user.name,
-      email: user.email,
-      status: "Interested"
-    }));
-    res.json({
-      message: "Leads fetched successfully",
-      data: leads
-  });
+    const leads = await Lead.find();
+
+    if (!leads || leads.length === 0) {
+      return res.status(404).json({ message: 'No leads found' }); // Single response for no leads
+    }
     
-    // Save to DB
-    await Lead.insertMany(leads);
-    res.status(200).json({ message: 'Leads fetched and stored successfully!' });
+    return res.json(leads); // Single response for found leads
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching leads', error });
+    return res.status(500).json({ message: 'Error fetching leads', error }); // Single response for error
   }
 };
+
 
 // Fetch campaigns from dummy API
 exports.getCampaigns = async (req, res) => {
