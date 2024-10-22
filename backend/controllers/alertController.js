@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 // Create a transporter using your email provider
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Use your email service
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER, // Your email address
     pass: process.env.EMAIL_PASS, // Your email password (or app password if using Gmail with 2FA)
@@ -34,7 +34,7 @@ exports.sendEmailAlert = async (req, res) => {
   try {
     await sendEmailNotification(subject, text);
     console.log('User:', process.env.EMAIL_USER);
-    console.log('Password:', process.env.EMAIL_PASS); // Avoid logging passwords in production!
+    console.log('Password:', process.env.EMAIL_PASS);
     return res.status(200).json({ message: 'Alert email sent successfully.' });
   } catch (error) {
     console.error('Error sending alert email:', error);
